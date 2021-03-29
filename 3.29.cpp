@@ -49,3 +49,56 @@ public:
         return pHead->next;
     }
 };
+
+
+/*
+struct ListNode {
+    int val;
+    struct ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};*/
+class PalindromeList {
+public:
+    bool chkPalindrome(ListNode* A) {
+        // write code here
+        if (!A) return true;
+
+        ListNode* slow = A;
+        ListNode* fast = A;
+        ListNode* pre = NULL;
+        while (fast && fast->next)
+        {
+            pre = slow;
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        ListNode* n1 = pre->next;
+        pre->next = NULL;
+        while (n1)
+        {
+            ListNode* temp = n1->next;
+            n1->next = pre->next;
+            pre->next = n1;
+            n1 = temp;
+        }
+
+        //pre=pre->next;
+        slow = pre->next;
+        pre->next = NULL;
+        while (A)
+        {
+            if (A->val != slow->val)
+            {
+                return false;
+            }
+            else
+            {
+                A = A->next;
+                slow = slow->next;
+            }
+        }
+
+        return true;
+    }
+};
